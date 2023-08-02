@@ -7,15 +7,15 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring")
 public interface DateTimeMapStructMapper {
 
-    default LocalDate endDateStringToEndDateLocalDate(String endDateString) {
-        if (endDateString.isEmpty()) {
+    default LocalDate endDateStringToEndDateLocalDate(String dateString) {
+        if (dateString.isEmpty()) {
             return null;
-        } return LocalDate.parse(endDateString);
+        } return LocalDate.parse(dateString);
     }
 
-    default String endDateDateTimeToEndDateString(LocalDate endDateLocalDate) {
-        if (endDateLocalDate == null) {
+    default String dateDateTimeToEndDateString(LocalDate dateLocalDate) {
+        if (dateLocalDate == null) {
             return "";
-        } return String.valueOf(endDateLocalDate);
+        } return String.valueOf(dateLocalDate);
     }
 }

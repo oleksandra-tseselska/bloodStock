@@ -28,5 +28,5 @@ public class BloodGroup {
     @UniqueElements
     private String group;
     @ApiModelProperty(value = "List of available blood")
-    private List<BloodInfo> bloodInfoIds;
+    private List<Long> bloodInfoIds;
 }

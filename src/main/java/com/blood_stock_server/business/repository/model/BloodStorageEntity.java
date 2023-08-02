@@ -1,6 +1,5 @@
 package com.blood_stock_server.business.repository.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,10 +30,9 @@ public class BloodStorageEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
-    private Set<AddressEntity> addressIds;
-    @JsonIgnore
+    private List<AddressEntity> addressIds;
     @ManyToMany(mappedBy = "bloodStorageIds")
-    private Set<BloodInfoEntity> bloodInfoIds;
+    private List<BloodInfoEntity> bloodInfoIds;
 
     public BloodStorageEntity(Long id) {
         this.id = id;
