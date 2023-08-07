@@ -28,8 +28,8 @@ public class Config {
 
     private Docket appendTags(Docket docket) {
         return docket.tags(
-                new Tag(DescriptionVariables.TEST,
-                        "Used to test swagger"));
+                new Tag(DescriptionVariables.BLOOD_GROUP,
+                        "Used to get, create, update and delete blood group"));
     }
 
     private ApiInfo apiInfo() {
