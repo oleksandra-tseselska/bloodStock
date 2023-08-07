@@ -13,20 +13,20 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@ApiModel(description = "Model of blood group data")
+@ApiModel(description = "Model of blood group data.")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
 public class BloodGroup {
-    @ApiModelProperty(name = "The unique id of the blood group",
-            value = "when saving a new object, it is itself generated in the database")
+    @ApiModelProperty(name = "The unique id of the blood group.",
+            value = "when saving a new object, it is itself generated in the database.")
     private Long id;
-    @ApiModelProperty(value = "The unique name of blood group",
+    @ApiModelProperty(value = "The unique name of blood group.",
             required = true)
-    @NotNull
+    @NotNull(message = "Blood group is mandatory and mustn't be null.")
     @UniqueElements
     private String group;
-    @ApiModelProperty(value = "List of available blood")
-    private List<BloodInfo> bloodInfoIds;
+    @ApiModelProperty(value = "List of available blood.")
+    private List<Long> bloodInfoIds;
 }

@@ -35,7 +35,7 @@ public class BloodInfoEntity {
     private LocalDate expireDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blood_group_id")
-    private BloodGroupEntity group;
+    private BloodGroupEntity bloodGroupId;
     @ManyToMany
     @JoinTable(
             name = "blood_stock",
