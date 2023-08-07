@@ -1,1 +1,6 @@
-# bloodStock architecture https://docs.google.com/document/d/1K_ILLDNNBeGHmZ1Yvlnwz6Z2EauB5Io1l5PClyYxfeA/edit
+# Blood Storage architecture
+![Blood Storage architecture picture](src/main/resources/doc/blood_stock_architecture.png)
+# Microservice architecture
+![Microservice architecture picture](src/main/resources/doc/BloodMatch.png)
+# Microservice Db
+![Micr0service databace](src/main/resources/doc/BloodMatchDB.png)
