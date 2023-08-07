@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface BloodGroupService {
     List<BloodGroup> findAllBloodGroups();
 
-    Optional<BloodGroup> findBloodGroupById(Long id);
+    BloodGroup findBloodGroupById(Long id);
 }

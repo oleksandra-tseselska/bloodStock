@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,10 +29,14 @@ public class BloodGroupServiceImpl implements BloodGroupService {
     }
 
     @Override
-    public Optional<BloodGroup> findBloodGroupById(Long id) {
+    public BloodGroup findBloodGroupById(Long id) {
         Optional<BloodGroup> bloodGroupById = repository.findById(id)
                 .flatMap(bloodGroup -> Optional.ofNullable(mapper.bloodGroupEntityToBloodGroup(bloodGroup)));
-        log.info("Blood group with id {} is {}", id, bloodGroupById);
-        return bloodGroupById;
+        if(bloodGroupById.isPresent()){
+            log.info("Blood group with id {} is {}", id, bloodGroupById.get());
+            return bloodGroupById.get();
+        }
+        log.warn("Blood group with id {} is not found.", id);
+        throw new NoSuchElementException();
     }
 }

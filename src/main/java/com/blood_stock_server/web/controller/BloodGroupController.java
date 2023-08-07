@@ -54,12 +54,6 @@ public class BloodGroupController {
     public ResponseEntity<BloodGroup> findEmployeeById(@ApiParam(value = "id of the blood group", required = true)
                                                      @NonNull @PathVariable Long id) {
         log.info("Find Employee by passing ID of blood group, where blood group ID is :{} ", id);
-        Optional<BloodGroup> bloodGroup = (service.findBloodGroupById(id));
-        if (!bloodGroup.isPresent()) {
-            log.warn("Blood group with id {} is not found.", id);
-        } else {
-            log.debug("Blood group with id {} is found: {}", id, bloodGroup);
-        }
-        return bloodGroup.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(service.findBloodGroupById(id));
     }
 }
