@@ -25,7 +25,6 @@ public class BloodGroup {
     @ApiModelProperty(value = "The unique name of blood group.",
             required = true)
     @NotNull(message = "Blood group is mandatory and mustn't be null.")
-    @UniqueElements
     private String group;
     @ApiModelProperty(value = "List of available blood.")
     private List<Long> bloodInfoIds;

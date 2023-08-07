@@ -35,6 +35,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 errors.toString());
         return ResponseEntity.status(status).body(errorResponse);
     }
+
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<Object> handleSQLIntegrityConstraintViolation(WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -51,6 +52,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleIllegalArgumentException(NoSuchElementException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setMessage(ex.getMessage());
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        return errorResponse;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse handleIllegalArgumentException(IllegalArgumentException ex) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setTimestamp(LocalDateTime.now());
         errorResponse.setMessage(ex.getMessage());

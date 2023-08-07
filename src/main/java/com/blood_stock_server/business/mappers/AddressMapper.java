@@ -2,7 +2,7 @@ package com.blood_stock_server.business.mappers;
 
 import com.blood_stock_server.business.repository.model.AddressEntity;
 import com.blood_stock_server.business.repository.model.BloodStorageEntity;
-import org.apache.tomcat.jni.Address;
+import com.blood_stock_server.model.Address;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {
