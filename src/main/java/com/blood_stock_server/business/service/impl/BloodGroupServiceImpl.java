@@ -14,15 +14,15 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Log4j2
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Log4j2
 public class BloodGroupServiceImpl implements BloodGroupService {
     private final BloodGroupRepository repository;
     private final BloodGroupMapper mapper;
 
     @Override
-    public List<BloodGroup> findAllBloodGroups(){
+    public List<BloodGroup> findAllBloodGroups() {
         List<BloodGroupEntity> bloodGroups = repository.findAll();
         log.info("Get employee list. Size is: {}", bloodGroups::size);
         return bloodGroups.stream().map(mapper::bloodGroupEntityToBloodGroup).collect(Collectors.toList());
@@ -32,7 +32,7 @@ public class BloodGroupServiceImpl implements BloodGroupService {
     public BloodGroup findBloodGroupById(Long id) {
         Optional<BloodGroup> bloodGroupById = repository.findById(id)
                 .flatMap(bloodGroup -> Optional.ofNullable(mapper.bloodGroupEntityToBloodGroup(bloodGroup)));
-        if(bloodGroupById.isPresent()){
+        if (bloodGroupById.isPresent()) {
             log.info("Blood group with id {} is {}", id, bloodGroupById.get());
             return bloodGroupById.get();
         }

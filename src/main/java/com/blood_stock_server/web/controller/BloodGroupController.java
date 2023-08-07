@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @Api(tags = {DescriptionVariables.BLOOD_GROUP})
 @Log4j2
@@ -53,7 +52,7 @@ public class BloodGroupController {
             @ApiResponse(code = 500, message = "Server error")})
     public ResponseEntity<BloodGroup> findEmployeeById(@ApiParam(value = "id of the blood group", required = true)
                                                      @NonNull @PathVariable Long id) {
-        log.info("Find Employee by passing ID of blood group, where blood group ID is :{} ", id);
+        log.info("Find Blood group by passing id:{} ", id);
         return ResponseEntity.ok(service.findBloodGroupById(id));
     }
 }

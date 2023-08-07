@@ -20,15 +20,15 @@ public class Address {
     private Long id;
     @ApiModelProperty(value = "The city in which the blood storage is located",
             required = true)
-    @NotNull
+    @NotNull(message = "City is mandatory and mustn't be null.")
     private String city;
     @ApiModelProperty(value = "The street in which the blood storage is located",
             required = true)
-    @NotNull
+    @NotNull(message = "Street is mandatory and mustn't be null.")
     private String street;
     @ApiModelProperty(value = "The building number in which the blood storage is located",
             required = true)
-    @NotNull
+    @NotNull(message = "Building number is mandatory and mustn't be null.")
     private Integer buildingNumber;
     @ApiModelProperty(value = "The office number in which the blood storage is located")
     private Integer office;
