@@ -1,5 +1,6 @@
 package com.blood_stock_server.business.service.impl;
 
+import com.blood_stock_server.business.exceptions.ExistInDataBaseException;
 import com.blood_stock_server.business.mappers.BloodStorageMapper;
 import com.blood_stock_server.business.repository.BloodStorageRepository;
 import com.blood_stock_server.business.repository.model.BloodStorageEntity;
@@ -20,7 +21,7 @@ public class BloodStorageServiceImpl implements BloodStorageService {
     public BloodStorage saveBloodStorage(BloodStorage bloodStorage) {
         if(repository.existsByEmailAndPhoneNumber(bloodStorage.getEmail(), bloodStorage.getPhoneNumber())){
             log.error("Blood service with same fields already exist");
-            throw new IllegalArgumentException("Blood service with same fields already exist");
+            throw new ExistInDataBaseException("Blood service with same fields already exist");
         }
         BloodStorageEntity bloodStorageEntity = repository.save(mapper.bloodStorageToBloodEntity(bloodStorage));
         return mapper.bloodStorageEntityToBloodStorage(bloodStorageEntity);

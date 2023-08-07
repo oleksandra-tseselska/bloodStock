@@ -1,5 +1,6 @@
 package com.blood_stock_server.business.service.impl;
 
+import com.blood_stock_server.business.exceptions.ExistInDataBaseException;
 import com.blood_stock_server.business.mappers.AddressMapper;
 import com.blood_stock_server.business.repository.AddressRepository;
 import com.blood_stock_server.business.repository.model.AddressEntity;
@@ -18,6 +19,10 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public Address saveAddress(Address address) {
+        if(repository.existsByCityAndStreetAndBuildingNumber(address.getCity(), address.getStreet(), address.getBuildingNumber())){
+            log.warn("This address already exist");
+            throw new ExistInDataBaseException("This address already exist");
+        }
         AddressEntity addressEntity = repository.save(mapper.addressToAddressEntity(address));
         log.info("New blood stock service with id {} is saved", addressEntity.getId());
         return mapper.addressEntityToAddress(addressEntity);
