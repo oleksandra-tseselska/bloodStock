@@ -1,7 +1,5 @@
 package com.blood_stock_server.model;
 
-import com.blood_stock_server.business.repository.model.AddressEntity;
-import com.blood_stock_server.business.repository.model.BloodInfoEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.Set;
+import java.util.List;
 
 @ApiModel(description = "Model of blood storage data ")
 @Data
@@ -31,7 +29,7 @@ public class BloodStorage {
     @Pattern(regexp = "\\d{8,15}")
     private String phoneNumber;
     @ApiModelProperty(name = "Blood storage's address")
-    private Set<AddressEntity> addressIds;
+    private List<Long> addressIds;
     @ApiModelProperty(name = "Stored blood in a blood storage")
-    private Set<BloodInfoEntity> bloodInfoIds;
+    private List<Long> bloodInfoIds;
 }

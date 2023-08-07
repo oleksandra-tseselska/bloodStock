@@ -1,7 +1,5 @@
 package com.blood_stock_server.business.repository.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,7 +27,6 @@ public class BloodGroupEntity {
     private Long id;
     @Column(name = "blood_group")
     private String group;
-    @JsonIgnore
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<BloodInfoEntity> bloodInfoIds;
 

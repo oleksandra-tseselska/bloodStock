@@ -33,5 +33,5 @@ public class Address {
     @ApiModelProperty(value = "The office number in which the blood storage is located")
     private Integer office;
     @ApiModelProperty(value = "The blood storage to which the address is attached")
-    private BloodStorage bloodStorageId;
+    private Long bloodStorageId;
 }

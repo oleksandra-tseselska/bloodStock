@@ -28,22 +28,22 @@ public class BloodInfo {
             value = "Date when blood taken. Date format YYYY-MM-DD",
             required = true, example = "2000-12-31")
     @NotNull
-    @JsonSerialize(using = ToStringSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+//    @JsonSerialize(using = ToStringSerializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate bloodTakenDate;
     @ApiModelProperty(
             value = "Date when blood expires. Date format YYYY-MM-DD",
             required = true, example = "2000-12-31")
     @NotNull
-    @JsonSerialize(using = ToStringSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+//    @JsonSerialize(using = ToStringSerializer.class)
+//    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate expireDate;
     @ApiModelProperty(
             value = "Blood group",
             required = true)
     @NotBlank
-    private BloodGroupEntity group;
+    private Long bloodGroupId;
     @ApiModelProperty(
             value = "List of blood storages in which blood is stored")
-    private List<BloodStorageEntity> bloodStorageIds;
+    private List<Long> bloodStorageIds;
 }
