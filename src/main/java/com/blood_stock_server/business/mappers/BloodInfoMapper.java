@@ -6,11 +6,6 @@ import com.blood_stock_server.business.repository.model.BloodStorageEntity;
 import com.blood_stock_server.model.BloodInfo;
 import org.mapstruct.Mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
-
 @Mapper(componentModel = "spring", uses = {
 //        DateTimeMapStructMapper.class,
         BloodGroupMapper.class,
@@ -28,26 +23,24 @@ public interface BloodInfoMapper {
         return new BloodGroupEntity(bloodGroupId);
     }
 
-    default Long bloodGroupIdToBloodGroup(BloodGroupEntity bloodGroupEntity) {
+    default Long bloodGroupEntityToBloodGroupId(BloodGroupEntity bloodGroupEntity) {
         if (bloodGroupEntity == null) {
             return null;
         }
         return bloodGroupEntity.getId();
     }
 
-    default List<BloodStorageEntity> bloodStorageEntityTpBloodStorageIds(List<Long> bloodStorageIds) {
-        List<BloodStorageEntity> BloodStorageEntities = new ArrayList<>();
-        if (isNotEmpty(bloodStorageIds)) {
-            bloodStorageIds.forEach(bloodStorageId -> BloodStorageEntities.add(new BloodStorageEntity(bloodStorageId)));
+    default BloodStorageEntity bloodStorageIdToBloodStorageEntity(Long bloodStorageId) {
+        if (bloodStorageId == null) {
+            return null;
         }
-        return BloodStorageEntities;
+        return new BloodStorageEntity(bloodStorageId);
     }
 
-    default List<Long> bloodStorageIdsToBloodStorageEntity(List<BloodStorageEntity> BloodStorageEntities) {
-        List<Long> BloodStorageIds = new ArrayList<>();
-        if (isNotEmpty(BloodStorageEntities)) {
-            BloodStorageEntities.forEach(bloodStorageEntity -> BloodStorageIds.add(bloodStorageEntity.getId()));
+    default Long bloodStorageEntityIdToBloodStorageId(BloodStorageEntity bloodStorageEntity) {
+        if (bloodStorageEntity == null) {
+            return null;
         }
-        return BloodStorageIds;
+        return bloodStorageEntity.getId();
     }
 }

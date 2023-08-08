@@ -7,8 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,7 +15,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,12 +33,9 @@ public class BloodInfoEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blood_group_id")
     private BloodGroupEntity bloodGroupId;
-    @ManyToMany
-    @JoinTable(
-            name = "blood_stock",
-            joinColumns = @JoinColumn(name = "blood_storage_id"),
-            inverseJoinColumns = @JoinColumn(name = "blood_info_id"))
-    private List<BloodStorageEntity> bloodStorageIds;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "blood_storage_id")
+    private BloodStorageEntity bloodStorageId;
 
     public BloodInfoEntity(Long id) {
         this.id = id;

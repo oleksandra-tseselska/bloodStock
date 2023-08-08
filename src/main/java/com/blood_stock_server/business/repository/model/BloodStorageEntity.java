@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -31,7 +30,7 @@ public class BloodStorageEntity {
     private String phoneNumber;
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
     private List<AddressEntity> addressIds;
-    @ManyToMany(mappedBy = "bloodStorageIds")
+    @OneToMany(mappedBy = "bloodStorageId", fetch = FetchType.LAZY)
     private List<BloodInfoEntity> bloodInfoIds;
 
     public BloodStorageEntity(Long id) {
