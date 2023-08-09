@@ -11,27 +11,25 @@ import java.util.List;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 
 @Mapper(componentModel = "spring", uses = {
-//        DateTimeMapStructMapper.class,
-        BloodInfoMapper.class
-})
+        BloodInfoMapper.class})
 public interface BloodGroupMapper {
     BloodGroupEntity bloodGroupToBloodGroupEntity(BloodGroup bloodGroup);
 
     BloodGroup bloodGroupEntityToBloodGroup(BloodGroupEntity bloodGroupEntity);
 
     default List<BloodInfoEntity> bloodInfoIdsToBloodInfoEntities(List<Long> bloodInfoIds) {
-        List<BloodInfoEntity> BloodInfoEntities = new ArrayList<>();
+        List<BloodInfoEntity> bloodInfoEntities = new ArrayList<>();
         if (isNotEmpty(bloodInfoIds)) {
-            bloodInfoIds.forEach(bloodInfoId -> BloodInfoEntities.add(new BloodInfoEntity(bloodInfoId)));
+            bloodInfoIds.forEach(bloodInfoId -> bloodInfoEntities.add(new BloodInfoEntity(bloodInfoId)));
         }
-        return BloodInfoEntities;
+        return bloodInfoEntities;
     }
 
-    default List<Long> bloodInfoEntitiesToBloodInfoIds(List<BloodInfoEntity> BloodInfoEntities) {
-        List<Long> BloodInfoIds = new ArrayList<>();
-        if (isNotEmpty(BloodInfoEntities)) {
-            BloodInfoEntities.forEach(bloodInfoEntity -> BloodInfoIds.add(bloodInfoEntity.getId()));
+    default List<Long> bloodInfoEntitiesToBloodInfoIds(List<BloodInfoEntity> bloodInfoEntities) {
+        List<Long> bloodInfoIds = new ArrayList<>();
+        if (isNotEmpty(bloodInfoEntities)) {
+            bloodInfoEntities.forEach(bloodInfoEntity -> bloodInfoIds.add(bloodInfoEntity.getId()));
         }
-        return BloodInfoIds;
+        return bloodInfoIds;
     }
 }

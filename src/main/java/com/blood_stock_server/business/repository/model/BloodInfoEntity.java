@@ -1,5 +1,6 @@
 package com.blood_stock_server.business.repository.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +34,9 @@ public class BloodInfoEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blood_group_id")
     private BloodGroupEntity bloodGroupId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "blood_storage_id")
     private BloodStorageEntity bloodStorageId;
 

@@ -27,7 +27,7 @@ public class BloodGroupEntity {
     private Long id;
     @Column(name = "blood_group")
     private String group;
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "bloodGroupId", fetch = FetchType.LAZY)
     private List<BloodInfoEntity> bloodInfoIds;
 
     public BloodGroupEntity(Long id) {

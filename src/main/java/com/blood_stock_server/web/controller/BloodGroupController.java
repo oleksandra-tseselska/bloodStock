@@ -1,8 +1,11 @@
 package com.blood_stock_server.web.controller;
 
 import com.blood_stock_server.business.service.BloodGroupService;
+import com.blood_stock_server.model.Address;
 import com.blood_stock_server.model.BloodGroup;
+import com.blood_stock_server.model.BloodInfo;
 import com.blood_stock_server.swagger.DescriptionVariables;
+import com.blood_stock_server.swagger.HTMLResponseMessages;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -15,6 +18,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,7 +39,7 @@ public class BloodGroupController {
             @ApiResponse(code = 200, message = "The request has succeeded", response = BloodGroup.class, responseContainer = "List"),
             @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
             @ApiResponse(code = 500, message = "Server error")})
-    public ResponseEntity<List<BloodGroup>> findAllEmployees() {
+    public ResponseEntity<List<BloodGroup>> findAllBloodGroups() {
         log.info("Retrieve list of Blood groups");
         List<BloodGroup> bloodGroups = service.findAllBloodGroups();
         log.debug("Blood groups is found. Size: {}", bloodGroups::size);
@@ -50,9 +54,25 @@ public class BloodGroupController {
             @ApiResponse(code = 200, message = "The request has succeeded"),
             @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
             @ApiResponse(code = 500, message = "Server error")})
-    public ResponseEntity<BloodGroup> findEmployeeById(@ApiParam(value = "id of the blood group", required = true)
+    public ResponseEntity<BloodGroup> findBloodGroupById(@ApiParam(value = "id of the blood group", required = true)
                                                      @NonNull @PathVariable Long id) {
         log.info("Find Blood group by passing id:{} ", id);
         return ResponseEntity.ok(service.findBloodGroupById(id));
+    }
+
+    @ApiOperation(value = "Find blood by passing blood group and location where blood needed",
+            response = BloodInfo.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
+    @GetMapping("/location")
+    public ResponseEntity<List<Address>> findBloodByBloodGroupAndLocation(
+            @RequestParam(required = false, name = "group") Long bloodGroupId,
+            @RequestParam(required = false, name = "city") String city){
+        List<Address> bloodLocationInfoList = service.getBloodByBloodGroupAndLocation(bloodGroupId, city);
+        return ResponseEntity.ok(bloodLocationInfoList);
     }
 }

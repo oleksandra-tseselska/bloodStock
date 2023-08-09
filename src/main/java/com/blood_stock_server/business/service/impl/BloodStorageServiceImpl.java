@@ -10,6 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @Log4j2
 @RequiredArgsConstructor
@@ -25,6 +30,25 @@ public class BloodStorageServiceImpl implements BloodStorageService {
         }
         BloodStorageEntity bloodStorageEntity = repository.save(mapper.bloodStorageToBloodEntity(bloodStorage));
         return mapper.bloodStorageEntityToBloodStorage(bloodStorageEntity);
+    }
+
+    @Override
+    public List<BloodStorage> findAllBloodStorages() {
+        List<BloodStorageEntity> bloodStorages = repository.findAll();
+        log.info("Get employee list. Size is: {}", bloodStorages::size);
+        return bloodStorages.stream().map(mapper::bloodStorageEntityToBloodStorage).collect(Collectors.toList());
+    }
+
+    @Override
+    public BloodStorage findBloodStorageById(Long id) {
+        Optional<BloodStorage> bloodStorageById = repository.findById(id)
+                .flatMap(bloodStorage -> Optional.ofNullable(mapper.bloodStorageEntityToBloodStorage(bloodStorage)));
+        if (bloodStorageById.isPresent()) {
+            log.info("Blood storage with id {} is {}", id, bloodStorageById.get());
+            return bloodStorageById.get();
+        }
+        log.warn("Blood storage with id {} is not found.", id);
+        throw new NoSuchElementException();
     }
 
 }

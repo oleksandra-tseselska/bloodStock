@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -40,5 +39,5 @@ public class BloodInfo {
     private Long bloodGroupId;
     @ApiModelProperty(
             value = "List of blood storages in which blood is stored")
-    private List<Long> bloodStorageIds;
+    private Long bloodStorageId;
 }

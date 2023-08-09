@@ -5,13 +5,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel(description = "Model of blood storage data ")
@@ -36,4 +35,11 @@ public class BloodStorage {
     private List<Long> addressIds;
     @ApiModelProperty(name = "Stored blood in a blood storage")
     private List<Long> bloodInfoIds;
+    public void add(BloodInfo bloodInfo){
+        if (bloodInfoIds == null) {
+            bloodInfoIds = new ArrayList<>();
+        }
+        bloodInfoIds.add(bloodInfo.getId());
+        bloodInfo.setBloodStorageId(this.getId());
+    }
 }
