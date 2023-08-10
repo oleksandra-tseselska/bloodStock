@@ -51,6 +51,7 @@ public class BloodStorageController {
         log.info("New blood stock blood storage is created with id {}", bloodStorageSaved.getId());
         return ResponseEntity.ok(bloodStorageSaved);
     }
+
     @GetMapping
     @ApiOperation(value = "Finds all blood storages",
             notes = "Returns the entire list of blood storages",
@@ -75,7 +76,7 @@ public class BloodStorageController {
             @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
             @ApiResponse(code = 500, message = "Server error")})
     public ResponseEntity<BloodStorage> findBloodStorageById(@ApiParam(value = "id of the blood storage", required = true)
-                                                       @NonNull @PathVariable Long id) {
+                                                             @NonNull @PathVariable Long id) {
         log.info("Find Blood storage by passing id:{} ", id);
         return ResponseEntity.ok(service.findBloodStorageById(id));
     }

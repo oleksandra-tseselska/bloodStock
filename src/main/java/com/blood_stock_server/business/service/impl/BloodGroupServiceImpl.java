@@ -6,7 +6,6 @@ import com.blood_stock_server.business.repository.model.BloodGroupEntity;
 import com.blood_stock_server.business.service.BloodGroupService;
 import com.blood_stock_server.model.Address;
 import com.blood_stock_server.model.BloodGroup;
-import com.blood_stock_server.model.BloodLocationInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +24,8 @@ public class BloodGroupServiceImpl implements BloodGroupService {
     @Override
     public List<BloodGroup> findAllBloodGroups() {
         List<BloodGroupEntity> bloodGroups = repository.findAll();
-        log.info("Get employee list. Size is: {}", bloodGroups::size);
-        return bloodGroups.stream().map(mapper::bloodGroupEntityToBloodGroup).collect(Collectors.toList());
+        log.info("Get blood group list. Size is: {}", bloodGroups::size);
+        return bloodGroups.stream().map(mapper::bloodGroupEntityToBloodGroup).toList();
     }
 
     @Override
@@ -42,12 +40,12 @@ public class BloodGroupServiceImpl implements BloodGroupService {
         throw new NoSuchElementException();
     }
 
-//    @Override
+    //    @Override
 //    public List<BloodLocationInfo> getBloodByBloodGroupAndLocation(Long bloodGroupId, String city) {
 //        return  repository.findBloodLocationByBloodGroupAndLocation(bloodGroupId, city);
 //    }
     @Override
     public List<Address> getBloodByBloodGroupAndLocation(Long bloodGroupId, String city) {
-        return  repository.findBloodLocationByBloodGroupAndLocation(bloodGroupId, city);
+        return repository.findBloodLocationByBloodGroupAndLocation(bloodGroupId, city);
     }
 }

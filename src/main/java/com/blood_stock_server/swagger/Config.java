@@ -31,7 +31,11 @@ public class Config {
                 new Tag(DescriptionVariables.BLOOD_GROUP,
                         "Used to get, create, update and delete blood group"),
                 new Tag(DescriptionVariables.BLOOD_STORAGE_ADDRESS,
-                        "Used to get, create, update and delete blood storage address"));
+                        "Used to get, create, update and delete blood storage address"),
+                new Tag(DescriptionVariables.BLOOD_INFO,
+                        "Used to get, create, update and delete blood info"),
+                new Tag(DescriptionVariables.BLOOD_STORAGE,
+                        "Used to get, create, update and delete blood storage"));
     }
 
     private ApiInfo apiInfo() {

@@ -2,14 +2,12 @@ package com.blood_stock_server.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +26,8 @@ public class BloodGroup {
     private String group;
     @ApiModelProperty(value = "List of available blood.")
     private List<Long> bloodInfoIds;
-    public void add(BloodInfo bloodInfo){
+
+    public void add(BloodInfo bloodInfo) {
         if (bloodInfoIds == null) {
             bloodInfoIds = new ArrayList<>();
         }

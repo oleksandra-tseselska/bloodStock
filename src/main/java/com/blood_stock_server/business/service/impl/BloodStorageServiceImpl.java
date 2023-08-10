@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -24,7 +23,7 @@ public class BloodStorageServiceImpl implements BloodStorageService {
 
     @Override
     public BloodStorage saveBloodStorage(BloodStorage bloodStorage) {
-        if(repository.existsByEmailAndPhoneNumber(bloodStorage.getEmail(), bloodStorage.getPhoneNumber())){
+        if (repository.existsByEmailAndPhoneNumber(bloodStorage.getEmail(), bloodStorage.getPhoneNumber())) {
             log.error("Blood service with same fields already exist");
             throw new ExistInDataBaseException("Blood service with same fields already exist");
         }
@@ -36,7 +35,7 @@ public class BloodStorageServiceImpl implements BloodStorageService {
     public List<BloodStorage> findAllBloodStorages() {
         List<BloodStorageEntity> bloodStorages = repository.findAll();
         log.info("Get employee list. Size is: {}", bloodStorages::size);
-        return bloodStorages.stream().map(mapper::bloodStorageEntityToBloodStorage).collect(Collectors.toList());
+        return bloodStorages.stream().map(mapper::bloodStorageEntityToBloodStorage).toList();
     }
 
     @Override

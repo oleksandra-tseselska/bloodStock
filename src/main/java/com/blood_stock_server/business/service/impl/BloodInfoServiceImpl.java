@@ -10,6 +10,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import static com.blood_stock_server.business.specifications.BloodInfoEntitySpecifications.expiryDateCheck;
+import static com.blood_stock_server.business.specifications.BloodInfoEntitySpecifications.presenceBloodByGroup;
 
 @Service
 @Log4j2
@@ -26,5 +30,13 @@ public class BloodInfoServiceImpl implements BloodInfoService {
         bloodInfo.setExpireDate(expireDate);
         BloodInfoEntity bloodInfoEntity = repository.save(mapper.bloodInfoToBloodInfoEntity(bloodInfo));
         return mapper.bloodInfoEntityToBloodInfo(bloodInfoEntity);
+    }
+
+    @Override
+    public List<BloodInfo> findAllBloodInfoByBloodGroup(String bloodGroup) {
+        List<BloodInfoEntity> bloodInfoEntities = repository.findAll(presenceBloodByGroup(bloodGroup).and(expiryDateCheck()));
+        log.info("Provided blood group is: {}", bloodGroup);
+        log.info("Get blood info list by providing blood group. Size is: {}", bloodInfoEntities::size);
+        return bloodInfoEntities.stream().map(mapper::bloodInfoEntityToBloodInfo).toList();
     }
 }

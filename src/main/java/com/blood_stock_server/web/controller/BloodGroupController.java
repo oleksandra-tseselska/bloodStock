@@ -55,7 +55,7 @@ public class BloodGroupController {
             @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
             @ApiResponse(code = 500, message = "Server error")})
     public ResponseEntity<BloodGroup> findBloodGroupById(@ApiParam(value = "id of the blood group", required = true)
-                                                     @NonNull @PathVariable Long id) {
+                                                         @NonNull @PathVariable Long id) {
         log.info("Find Blood group by passing id:{} ", id);
         return ResponseEntity.ok(service.findBloodGroupById(id));
     }
@@ -71,7 +71,7 @@ public class BloodGroupController {
     @GetMapping("/location")
     public ResponseEntity<List<Address>> findBloodByBloodGroupAndLocation(
             @RequestParam(required = false, name = "group") Long bloodGroupId,
-            @RequestParam(required = false, name = "city") String city){
+            @RequestParam(required = false, name = "city") String city) {
         List<Address> bloodLocationInfoList = service.getBloodByBloodGroupAndLocation(bloodGroupId, city);
         return ResponseEntity.ok(bloodLocationInfoList);
     }

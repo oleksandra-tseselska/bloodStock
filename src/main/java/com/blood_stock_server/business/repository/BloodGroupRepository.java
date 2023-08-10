@@ -2,14 +2,13 @@ package com.blood_stock_server.business.repository;
 
 import com.blood_stock_server.business.repository.model.BloodGroupEntity;
 import com.blood_stock_server.model.Address;
-import com.blood_stock_server.model.BloodLocationInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface BloodGroupRepository extends JpaRepository<BloodGroupEntity, Long> {
-//    @Query(value = "SELECT blood_group.blood_group, blood_info.expire_date, blood_storage_address.city, blood_storage_address.street, " +
+    //    @Query(value = "SELECT blood_group.blood_group, blood_info.expire_date, blood_storage_address.city, blood_storage_address.street, " +
 //            "blood_storage_address.building_number, blood_storage_address.office, blood_storage.email, blood_storage.phone_number " +
 //            "FROM blood_group " +
 //            "INNER JOIN blood_info ON blood_group.blood_group_id = blood_info.blood_group_id " +
@@ -47,6 +46,6 @@ public interface BloodGroupRepository extends JpaRepository<BloodGroupEntity, Lo
             "inner join BloodStorage s ON a.id = s.addressIds " +
             "inner join BloodInfo i ON s.id = s.bloodStorageId " +
             "inner join BloodGroup g ON i.id = g.bloodInfoIds " +
-            "where i.bloodGroupId = ?1 AND a.city = ?2;", nativeQuery=true)
+            "where i.bloodGroupId = ?1 AND a.city = ?2;", nativeQuery = true)
     List<Address> findBloodLocationByBloodGroupAndLocation(Long bloodGroupId, String city);
 }

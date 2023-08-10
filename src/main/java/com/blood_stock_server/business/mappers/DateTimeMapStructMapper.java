@@ -10,12 +10,14 @@ public interface DateTimeMapStructMapper {
     default LocalDate endDateStringToEndDateLocalDate(String dateString) {
         if (dateString.isEmpty()) {
             return null;
-        } return LocalDate.parse(dateString);
+        }
+        return LocalDate.parse(dateString);
     }
 
     default String dateDateTimeToEndDateString(LocalDate dateLocalDate) {
         if (dateLocalDate == null) {
             return "";
-        } return String.valueOf(dateLocalDate);
+        }
+        return String.valueOf(dateLocalDate);
     }
 }
