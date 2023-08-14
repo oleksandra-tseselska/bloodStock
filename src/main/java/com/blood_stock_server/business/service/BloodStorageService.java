@@ -10,4 +10,6 @@ public interface BloodStorageService {
     List<BloodStorage> findAllBloodStorages();
 
     BloodStorage findBloodStorageById(Long id);
+
+    BloodStorage updateBloodStorage(BloodStorage bloodStorage);
 }
