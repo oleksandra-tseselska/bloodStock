@@ -51,11 +51,11 @@ public class BloodStorageServiceImpl implements BloodStorageService {
     }
 
     @Override
-    public BloodStorage updateBloodStorage(BloodStorage bloodStorage) {
-        BloodStorage updateBloodStorage = findBloodStorageById(bloodStorage.getId());
-        if(repository.existsById(updateBloodStorage.getId())){
+    public BloodStorage updateBloodStorage(BloodStorage bloodStorage, Long id){
+        if(repository.existsById(id)){
+            bloodStorage.setId(id);
             BloodStorageEntity savedBloodStorageEntity = repository.save(mapper.bloodStorageToBloodEntity(bloodStorage));
-            log.info("Blood storage with id {} is saved", updateBloodStorage.getId());
+            log.info("Blood storage with id {} is saved", id);
             return mapper.bloodStorageEntityToBloodStorage(savedBloodStorageEntity);
         }
         log.warn("Blood storage with id {} is not found", bloodStorage.getId());

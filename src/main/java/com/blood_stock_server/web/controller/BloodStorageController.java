@@ -83,6 +83,7 @@ public class BloodStorageController {
         log.info("Find Blood storage by passing id:{} ", id);
         return ResponseEntity.ok(service.findBloodStorageById(id));
     }
+
     @ApiOperation(value = "Update the Blood storage",
             response = BloodStorage.class)
     @ApiResponses(value = {
@@ -102,7 +103,7 @@ public class BloodStorageController {
             log.warn("Blood storage is not updated: error {}", bindingResult);
             return ResponseEntity.badRequest().build();
         }
-        BloodStorage updateBloodStorage = service.updateBloodStorage(bloodStorage);
+        BloodStorage updateBloodStorage = service.updateBloodStorage(bloodStorage, id);
         log.info("Blood storage with id {} is updated", updateBloodStorage.getId());
         return ResponseEntity.ok(updateBloodStorage);
     }

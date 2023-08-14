@@ -11,5 +11,5 @@ public interface BloodStorageService {
 
     BloodStorage findBloodStorageById(Long id);
 
-    BloodStorage updateBloodStorage(BloodStorage bloodStorage);
+    BloodStorage updateBloodStorage(BloodStorage bloodStorage, Long id);
 }

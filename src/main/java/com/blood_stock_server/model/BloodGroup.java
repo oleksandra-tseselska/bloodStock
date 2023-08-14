@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel(description = "Model of blood group data.")
