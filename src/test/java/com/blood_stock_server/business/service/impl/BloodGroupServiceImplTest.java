@@ -21,8 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
-public class BloodGroupServiceImplTest {
+class BloodGroupServiceImplTest {
     @Mock
     BloodGroupMapper mapper;
     @Mock
@@ -65,19 +66,21 @@ public class BloodGroupServiceImplTest {
         when(repository.findById(2L)).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class, () -> service.findBloodGroupById(2L));
     }
-    private List<BloodGroupEntity> createListOfBloodGroupEntities(){
+
+    private List<BloodGroupEntity> createListOfBloodGroupEntities() {
         List<BloodGroupEntity> bloodGroupEntities = new ArrayList<>();
         bloodGroupEntities.add(createBloodGroupEntity());
         return bloodGroupEntities;
     }
-    private List<BloodGroup> createListOfBloodGroups(){
+
+    private List<BloodGroup> createListOfBloodGroups() {
         List<BloodGroup> bloodGroups = new ArrayList<>();
         bloodGroups.add(createBloodGroup());
         return bloodGroups;
     }
 
 
-    private BloodGroupEntity createBloodGroupEntity(){
+    private BloodGroupEntity createBloodGroupEntity() {
         BloodGroupEntity bloodGroupEntity = new BloodGroupEntity();
         bloodGroupEntity.setId(1L);
         bloodGroupEntity.setGroup("0-");
@@ -85,7 +88,7 @@ public class BloodGroupServiceImplTest {
         return bloodGroupEntity;
     }
 
-    private BloodGroup createBloodGroup(){
+    private BloodGroup createBloodGroup() {
         BloodGroup bloodGroup = new BloodGroup();
         bloodGroup.setId(1L);
         bloodGroup.setGroup("0-");

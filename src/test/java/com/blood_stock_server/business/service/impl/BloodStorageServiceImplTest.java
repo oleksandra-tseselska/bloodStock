@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class BloodStorageServiceImplTest {
     @Mock
@@ -45,7 +46,7 @@ class BloodStorageServiceImplTest {
         bloodStorages = createListOfBloodStorages();
         bloodStorageEntity = createBloodStorageEntity();
         bloodStorage = createBloodStorage();
-        notExistBloodStorage = createBloodStorage();
+        notExistBloodStorage = createNotExistBloodStorage();
         updatedBloodStorage = createUpdatedBloodStorage();
     }
 
@@ -85,17 +86,19 @@ class BloodStorageServiceImplTest {
         assertEquals("address1", savedBloodStorage.getAddress());
         verify(repository, times(1)).save(bloodStorageEntity);
     }
+
     @Test
     void saveBloodStorage_ExistInDataBaseException() {
-        when(repository.existsByEmailAndPhoneNumberAndAddress(notExistBloodStorage.getEmail(),
-                notExistBloodStorage.getPhoneNumber(), notExistBloodStorage.getAddress()))
+        when(repository.existsByEmailAndPhoneNumberAndAddress(bloodStorage.getEmail(),
+                bloodStorage.getPhoneNumber(), bloodStorage.getAddress()))
                 .thenReturn(true);
         assertTrue(repository.existsByEmailAndPhoneNumberAndAddress
                 (bloodStorage.getEmail(), bloodStorage.getPhoneNumber(), bloodStorage.getAddress()));
-        assertThrows(ExistInDataBaseException.class, () -> service.saveBloodStorage(notExistBloodStorage));
+        assertThrows(ExistInDataBaseException.class, () -> service.saveBloodStorage(bloodStorage));
         verify(repository, times(0))
-                .save(mapper.bloodStorageToBloodEntity(notExistBloodStorage));
+                .save(mapper.bloodStorageToBloodEntity(bloodStorage));
     }
+
     @Test
     void updateBloodStorage_Success() {
         when(repository.existsById(bloodStorage.getId()))
@@ -105,6 +108,7 @@ class BloodStorageServiceImplTest {
         verify(repository, times(1))
                 .save(mapper.bloodStorageToBloodEntity(updatedBloodStorage));
     }
+
     @Test
     void updateBloodStorage_NoSuchElementException() {
         when(repository.existsById(notExistBloodStorage.getId()))
@@ -115,19 +119,20 @@ class BloodStorageServiceImplTest {
                 .save(mapper.bloodStorageToBloodEntity(notExistBloodStorage));
     }
 
-    private List<BloodStorageEntity> createListOfBloodStorageEntities(){
+    private List<BloodStorageEntity> createListOfBloodStorageEntities() {
         List<BloodStorageEntity> bloodStorageEntities = new ArrayList<>();
         bloodStorageEntities.add(createBloodStorageEntity());
         return bloodStorageEntities;
     }
-    private List<BloodStorage> createListOfBloodStorages(){
+
+    private List<BloodStorage> createListOfBloodStorages() {
         List<BloodStorage> bloodStorages = new ArrayList<>();
         bloodStorages.add(createBloodStorage());
         return bloodStorages;
     }
 
 
-    private BloodStorageEntity createBloodStorageEntity(){
+    private BloodStorageEntity createBloodStorageEntity() {
         BloodStorageEntity bloodStorageEntity = new BloodStorageEntity();
         bloodStorageEntity.setId(1L);
         bloodStorageEntity.setEmail("email1@gmail.com");
@@ -137,7 +142,7 @@ class BloodStorageServiceImplTest {
         return bloodStorageEntity;
     }
 
-    private BloodStorage createBloodStorage(){
+    private BloodStorage createBloodStorage() {
         BloodStorage bloodStorage = new BloodStorage();
         bloodStorage.setId(1L);
         bloodStorage.setEmail("email1@gmail.com");
@@ -146,12 +151,23 @@ class BloodStorageServiceImplTest {
 
         return bloodStorage;
     }
-    private BloodStorage createUpdatedBloodStorage(){
+
+    private BloodStorage createUpdatedBloodStorage() {
         BloodStorage bloodStorage = new BloodStorage();
         bloodStorage.setId(1L);
         bloodStorage.setEmail("email111@gmail.com");
         bloodStorage.setPhoneNumber("11111111");
         bloodStorage.setAddress("address111");
+
+        return bloodStorage;
+    }
+
+    private BloodStorage createNotExistBloodStorage() {
+        BloodStorage bloodStorage = new BloodStorage();
+        bloodStorage.setId(999L);
+        bloodStorage.setEmail("email999@gmail.com");
+        bloodStorage.setPhoneNumber("99999999");
+        bloodStorage.setAddress("address999");
 
         return bloodStorage;
     }
