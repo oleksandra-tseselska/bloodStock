@@ -34,8 +34,7 @@ public class AddressEntity {
     @Column(name = "office")
     private Integer office;
     @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "blood_storage_id")
     private BloodStorageEntity bloodStorageId;
 

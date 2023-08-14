@@ -10,21 +10,30 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class AddressServiceImpl implements AddressService{
+public class AddressServiceImpl implements AddressService {
     private final AddressRepository repository;
     private final AddressMapper mapper;
 
     @Override
     public Address saveAddress(Address address) {
-        if(repository.existsByCityAndStreetAndBuildingNumber(address.getCity(), address.getStreet(), address.getBuildingNumber())){
+        if (repository.existsByCityAndStreetAndBuildingNumber(address.getCity(), address.getStreet(), address.getBuildingNumber())) {
             log.warn("This address already exist");
             throw new ExistInDataBaseException("This address already exist");
         }
         AddressEntity addressEntity = repository.save(mapper.addressToAddressEntity(address));
         log.info("New blood stock service with id {} is saved", addressEntity.getId());
         return mapper.addressEntityToAddress(addressEntity);
+    }
+
+    @Override
+    public List<Address> findAllAddresses() {
+        List<AddressEntity> addressEntities = repository.findAll();
+        log.info("Get addresses list. Size is: {}", addressEntities::size);
+        return addressEntities.stream().map(mapper::addressEntityToAddress).toList();
     }
 }

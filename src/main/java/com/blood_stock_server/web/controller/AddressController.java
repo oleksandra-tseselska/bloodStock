@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = {DescriptionVariables.BLOOD_STORAGE_ADDRESS})
 @Log4j2
@@ -28,6 +30,21 @@ import javax.validation.Valid;
 public class AddressController {
 
     private final AddressServiceImpl service;
+
+    @GetMapping
+    @ApiOperation(value = "Finds all addresses",
+            notes = "Returns the entire list of addresses",
+            response = Address.class, responseContainer = "List")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The request has succeeded", response = Address.class, responseContainer = "List"),
+            @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
+            @ApiResponse(code = 500, message = "Server error")})
+    public ResponseEntity<List<Address>> findAllBloodGroups() {
+        log.info("Retrieve list of Addresses");
+        List<Address> addresses = service.findAllAddresses();
+        log.debug("Addresses is found. Size: {}", addresses::size);
+        return ResponseEntity.ok(addresses);
+    }
 
     @ApiOperation(value = "Save new blood storage address",
             response = Address.class)
