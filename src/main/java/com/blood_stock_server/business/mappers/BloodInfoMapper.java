@@ -7,7 +7,6 @@ import com.blood_stock_server.model.BloodInfo;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {
-        DateTimeMapStructMapper.class,
         BloodGroupMapper.class,
         BloodStorageMapper.class})
 public interface BloodInfoMapper {

@@ -4,5 +4,7 @@ import com.blood_stock_server.business.repository.model.BloodStorageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BloodStorageRepository extends JpaRepository<BloodStorageEntity, Long> {
-    boolean existsByEmailAndPhoneNumber(String email, String phoneNumber);
+    boolean existsByEmailAndPhoneNumberAndAddress(String email, String phoneNumber, String address);
+
+    boolean existsById(Long id);
 }

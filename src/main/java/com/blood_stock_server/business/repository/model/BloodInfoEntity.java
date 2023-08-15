@@ -34,7 +34,7 @@ public class BloodInfoEntity {
     @JoinColumn(name = "blood_group_id")
     private BloodGroupEntity bloodGroupId;
     @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            cascade = {CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "blood_storage_id")
     private BloodStorageEntity bloodStorageId;

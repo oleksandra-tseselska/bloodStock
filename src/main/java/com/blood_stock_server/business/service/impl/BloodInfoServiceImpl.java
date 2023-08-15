@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.blood_stock_server.business.specifications.BloodInfoEntitySpecifications.expiryDateCheck;
+import static com.blood_stock_server.business.specifications.BloodInfoEntitySpecifications.findByBloodGroupId;
+import static com.blood_stock_server.business.specifications.BloodInfoEntitySpecifications.presenceBloodByBloodStorageAddress;
 import static com.blood_stock_server.business.specifications.BloodInfoEntitySpecifications.presenceBloodByGroup;
 
 @Service
@@ -24,10 +26,21 @@ public class BloodInfoServiceImpl implements BloodInfoService {
 
     @Override
     public BloodInfo saveBloodInfo(BloodInfo bloodInfo) {
-        LocalDate bloodTaken = LocalDate.now();
-        LocalDate expireDate = bloodTaken.plusDays(3);
-        bloodInfo.setBloodTakenDate(bloodTaken);
-        bloodInfo.setExpireDate(expireDate);
+        if (bloodInfo.getBloodTakenDate() == null) {
+            LocalDate bloodTaken = LocalDate.now();
+            LocalDate expireDate = bloodTaken.plusDays(3);
+            bloodInfo.setBloodTakenDate(bloodTaken);
+            bloodInfo.setExpireDate(expireDate);
+        } else {
+            LocalDate dateBloodTaken = bloodInfo.getBloodTakenDate();
+            if (dateBloodTaken.isAfter(LocalDate.now())) throw new IllegalArgumentException(
+                    "The date blood taken date cannot be in the future.");
+            if (dateBloodTaken.isBefore(LocalDate.now().minusDays(3))) throw new IllegalArgumentException(
+                    "The date blood taken date cannot be before " + LocalDate.now().minusDays(3)
+            );
+            LocalDate expireDate = dateBloodTaken.plusDays(3);
+            bloodInfo.setExpireDate(expireDate);
+        }
         BloodInfoEntity bloodInfoEntity = repository.save(mapper.bloodInfoToBloodInfoEntity(bloodInfo));
         return mapper.bloodInfoEntityToBloodInfo(bloodInfoEntity);
     }
@@ -36,6 +49,28 @@ public class BloodInfoServiceImpl implements BloodInfoService {
     public List<BloodInfo> findAllBloodInfoByBloodGroup(String bloodGroup) {
         List<BloodInfoEntity> bloodInfoEntities = repository.findAll(presenceBloodByGroup(bloodGroup).and(expiryDateCheck()));
         log.info("Provided blood group is: {}", bloodGroup);
+        log.info("Get blood info list by providing blood group. Size is: {}", bloodInfoEntities::size);
+        return bloodInfoEntities.stream().map(mapper::bloodInfoEntityToBloodInfo).toList();
+    }
+
+    @Override
+    public List<BloodInfo> findAllBloodInfoByBloodIdAndStorageAddress(Long bloodGroupId, String bloodStorageAddress) {
+        List<BloodInfoEntity> bloodInfoEntities;
+        if (bloodGroupId == null) {
+            bloodInfoEntities = repository.findAll((expiryDateCheck())
+                    .and(presenceBloodByBloodStorageAddress(bloodStorageAddress)));
+        } else if (bloodStorageAddress == null) {
+            bloodInfoEntities = repository
+                    .findAll(findByBloodGroupId(bloodGroupId)
+                            .and(expiryDateCheck()));
+        } else {
+            bloodInfoEntities = repository
+                    .findAll(findByBloodGroupId(bloodGroupId)
+                            .and(expiryDateCheck())
+                            .and(presenceBloodByBloodStorageAddress(bloodStorageAddress)));
+        }
+        log.info("Provided blood group id is: {}", bloodGroupId);
+        log.info("Provided blood storage address is: {}", bloodStorageAddress);
         log.info("Get blood info list by providing blood group. Size is: {}", bloodInfoEntities::size);
         return bloodInfoEntities.stream().map(mapper::bloodInfoEntityToBloodInfo).toList();
     }

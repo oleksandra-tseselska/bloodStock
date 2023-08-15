@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel(description = "Model of blood storage data ")
@@ -32,14 +31,8 @@ public class BloodStorage {
     @Pattern(regexp = "\\d{8,15}", message = "Phone numbers must contain from 8 to 15 digits.")
     private String phoneNumber;
     @ApiModelProperty(name = "Blood storage's address")
-    private List<Long> addressIds;
+    @NotBlank(message = "Address is mandatory")
+    private String address;
     @ApiModelProperty(name = "Stored blood in a blood storage")
     private List<Long> bloodInfoIds;
-    public void add(BloodInfo bloodInfo){
-        if (bloodInfoIds == null) {
-            bloodInfoIds = new ArrayList<>();
-        }
-        bloodInfoIds.add(bloodInfo.getId());
-        bloodInfo.setBloodStorageId(this.getId());
-    }
 }

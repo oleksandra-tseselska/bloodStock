@@ -14,15 +14,18 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Api(tags = {DescriptionVariables.BLOOD_STORAGE})
@@ -79,5 +82,29 @@ public class BloodStorageController {
                                                              @NonNull @PathVariable Long id) {
         log.info("Find Blood storage by passing id:{} ", id);
         return ResponseEntity.ok(service.findBloodStorageById(id));
+    }
+
+    @ApiOperation(value = "Update the Blood storage",
+            response = BloodStorage.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<BloodStorage> updateBloodStorage(
+            @ApiParam(value = "id of the blood storage", required = true)
+            @PathVariable @NotNull Long id,
+            @Valid @RequestBody BloodStorage bloodStorage,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            log.warn("Blood storage is not updated: error {}", bindingResult);
+            return ResponseEntity.badRequest().build();
+        }
+        BloodStorage updateBloodStorage = service.updateBloodStorage(bloodStorage, id);
+        log.info("Blood storage with id {} is updated", updateBloodStorage.getId());
+        return ResponseEntity.ok(updateBloodStorage);
     }
 }

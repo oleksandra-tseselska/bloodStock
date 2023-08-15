@@ -8,4 +8,6 @@ public interface BloodInfoService {
     BloodInfo saveBloodInfo(BloodInfo bloodInfo);
 
     List<BloodInfo> findAllBloodInfoByBloodGroup(String bloodGroup);
+
+    List<BloodInfo> findAllBloodInfoByBloodIdAndStorageAddress(Long bloodGroupId, String bloodStorageAddress);
 }

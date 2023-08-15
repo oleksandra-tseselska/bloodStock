@@ -67,7 +67,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(),
                 status.value(),
                 status.getReasonPhrase(),
-                ex.getMessage(),
+                ex.getMessage() + "or Invalid request",
                 request.getDescription(false));
     }
 }

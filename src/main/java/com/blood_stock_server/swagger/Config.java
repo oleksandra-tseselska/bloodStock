@@ -30,8 +30,6 @@ public class Config {
         return docket.tags(
                 new Tag(DescriptionVariables.BLOOD_GROUP,
                         "Used to get, create, update and delete blood group"),
-                new Tag(DescriptionVariables.BLOOD_STORAGE_ADDRESS,
-                        "Used to get, create, update and delete blood storage address"),
                 new Tag(DescriptionVariables.BLOOD_INFO,
                         "Used to get, create, update and delete blood info"),
                 new Tag(DescriptionVariables.BLOOD_STORAGE,

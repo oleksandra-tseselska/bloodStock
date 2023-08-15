@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel(description = "Model of blood group data.")
@@ -26,12 +25,4 @@ public class BloodGroup {
     private String group;
     @ApiModelProperty(value = "List of available blood.")
     private List<Long> bloodInfoIds;
-
-    public void add(BloodInfo bloodInfo) {
-        if (bloodInfoIds == null) {
-            bloodInfoIds = new ArrayList<>();
-        }
-        bloodInfoIds.add(bloodInfo.getId());
-        bloodInfo.setBloodStorageId(this.getId());
-    }
 }

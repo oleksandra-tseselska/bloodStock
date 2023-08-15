@@ -23,7 +23,7 @@ public class BloodStorageServiceImpl implements BloodStorageService {
 
     @Override
     public BloodStorage saveBloodStorage(BloodStorage bloodStorage) {
-        if (repository.existsByEmailAndPhoneNumber(bloodStorage.getEmail(), bloodStorage.getPhoneNumber())) {
+        if (repository.existsByEmailAndPhoneNumberAndAddress(bloodStorage.getEmail(), bloodStorage.getPhoneNumber(), bloodStorage.getAddress())) {
             log.error("Blood service with same fields already exist");
             throw new ExistInDataBaseException("Blood service with same fields already exist");
         }
@@ -50,4 +50,15 @@ public class BloodStorageServiceImpl implements BloodStorageService {
         throw new NoSuchElementException();
     }
 
+    @Override
+    public BloodStorage updateBloodStorage(BloodStorage bloodStorage, Long id){
+        if(repository.existsById(id)){
+            bloodStorage.setId(id);
+            BloodStorageEntity savedBloodStorageEntity = repository.save(mapper.bloodStorageToBloodEntity(bloodStorage));
+            log.info("Blood storage with id {} is saved", id);
+            return mapper.bloodStorageEntityToBloodStorage(savedBloodStorageEntity);
+        }
+        log.warn("Blood storage with id {} is not found", bloodStorage.getId());
+        throw new NoSuchElementException("Blood storage with this id is not found");
+    }
 }
