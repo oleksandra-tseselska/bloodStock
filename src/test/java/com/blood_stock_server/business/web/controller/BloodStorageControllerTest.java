@@ -36,6 +36,14 @@ class BloodStorageControllerTest {
     private BloodStorage invalidBloodStorage;
     private BloodStorage updatedBloodStorage;
 
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @BeforeEach
     void init() {
         bloodStorages = createListOfBloodStorages();
@@ -58,7 +66,6 @@ class BloodStorageControllerTest {
                 .andExpect(status().isOk());
         verify(service, times(1)).findAllBloodStorages();
     }
-
 
     @Test
     void findBloodStorageById_Success() throws Exception {
@@ -119,14 +126,6 @@ class BloodStorageControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
         verify(service, times(0)).saveBloodStorage(invalidBloodStorage);
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private List<BloodStorage> createListOfBloodStorages() {

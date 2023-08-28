@@ -68,7 +68,7 @@ public class BloodInfoController {
     }
 
     @GetMapping()
-    @ApiOperation(value = "Finds blood info by providing blood group",
+    @ApiOperation(value = "Finds blood info by providing blood group and/or blood storage address",
             notes = "Returns the entire list of blood info",
             response = BloodInfo.class, responseContainer = "List")
     @ApiResponses(value = {
@@ -78,9 +78,9 @@ public class BloodInfoController {
     public ResponseEntity<List<BloodInfo>> findAllBloodInfoByBloodIdAndStorageAddress(
             @ApiParam(value = "name of the blood group") @RequestParam(required = false) Long bloodGroupId,
             @ApiParam(value = "address of the storage") @RequestParam(required = false) String bloodStorageAddress) {
-        log.info("Retrieve list of Blood info by providing blood group");
+        log.info("Retrieve list of Blood info by providing blood group and/or blood storage address");
         List<BloodInfo> bloodInfo = service.findAllBloodInfoByBloodIdAndStorageAddress(bloodGroupId, bloodStorageAddress);
-        log.debug("Blood info by providing blood group is found. Size: {}", bloodInfo::size);
+        log.debug("Blood info by providing blood group and/or blood storage address is found. Size: {}", bloodInfo::size);
         return ResponseEntity.ok(bloodInfo);
     }
 }

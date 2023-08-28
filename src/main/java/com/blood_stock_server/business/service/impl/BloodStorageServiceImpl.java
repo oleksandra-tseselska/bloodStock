@@ -23,10 +23,7 @@ public class BloodStorageServiceImpl implements BloodStorageService {
 
     @Override
     public BloodStorage saveBloodStorage(BloodStorage bloodStorage) {
-        if (repository.existsByEmailAndPhoneNumberAndAddress(bloodStorage.getEmail(), bloodStorage.getPhoneNumber(), bloodStorage.getAddress())) {
-            log.error("Blood service with same fields already exist");
-            throw new ExistInDataBaseException("Blood service with same fields already exist");
-        }
+        existInRepositoryThrowEIDBException(bloodStorage);
         BloodStorageEntity bloodStorageEntity = repository.save(mapper.bloodStorageToBloodEntity(bloodStorage));
         return mapper.bloodStorageEntityToBloodStorage(bloodStorageEntity);
     }
@@ -51,8 +48,9 @@ public class BloodStorageServiceImpl implements BloodStorageService {
     }
 
     @Override
-    public BloodStorage updateBloodStorage(BloodStorage bloodStorage, Long id){
-        if(repository.existsById(id)){
+    public BloodStorage updateBloodStorage(BloodStorage bloodStorage, Long id) {
+        if (repository.existsById(id)) {
+            existInRepositoryThrowEIDBException(bloodStorage);
             bloodStorage.setId(id);
             BloodStorageEntity savedBloodStorageEntity = repository.save(mapper.bloodStorageToBloodEntity(bloodStorage));
             log.info("Blood storage with id {} is saved", id);
@@ -60,5 +58,17 @@ public class BloodStorageServiceImpl implements BloodStorageService {
         }
         log.warn("Blood storage with id {} is not found", bloodStorage.getId());
         throw new NoSuchElementException("Blood storage with this id is not found");
+    }
+
+    private void existInRepositoryThrowEIDBException(BloodStorage bloodStorage) {
+        if (isExistInRepository(bloodStorage)) {
+            log.error("Blood service with same fields already exist");
+            throw new ExistInDataBaseException("Blood service with same fields already exist");
+        }
+    }
+
+    private boolean isExistInRepository(BloodStorage bloodStorage) {
+        return repository.existsByEmailAndPhoneNumberAndAddress(bloodStorage.getEmail(),
+                bloodStorage.getPhoneNumber(), bloodStorage.getAddress());
     }
 }
