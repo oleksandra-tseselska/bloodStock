@@ -56,9 +56,9 @@ public class BloodInfoController {
             notes = "Returns the entire list of blood info",
             response = BloodInfo.class, responseContainer = "List")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "The request has succeeded", response = BloodInfo.class, responseContainer = "List"),
-            @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
-            @ApiResponse(code = 500, message = "Server error")})
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)})
     public ResponseEntity<List<BloodInfo>> findAllBloodInfoByBloodGroup(@ApiParam(value = "id of the blood group", required = true)
                                                                         @PathVariable String bloodGroup) {
         log.info("Retrieve list of Blood info by providing blood group");
@@ -68,19 +68,19 @@ public class BloodInfoController {
     }
 
     @GetMapping()
-    @ApiOperation(value = "Finds blood info by providing blood group and/or blood storage address",
+    @ApiOperation(value = "Finds blood info by providing blood group id and/or blood storage address",
             notes = "Returns the entire list of blood info",
             response = BloodInfo.class, responseContainer = "List")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "The request has succeeded", response = BloodInfo.class, responseContainer = "List"),
-            @ApiResponse(code = 404, message = "The server has not found anything matching the Request-URI"),
-            @ApiResponse(code = 500, message = "Server error")})
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)})
     public ResponseEntity<List<BloodInfo>> findAllBloodInfoByBloodIdAndStorageAddress(
-            @ApiParam(value = "name of the blood group") @RequestParam(required = false) Long bloodGroupId,
+            @ApiParam(value = "id of the blood group") @RequestParam(required = false) Long bloodGroupId,
             @ApiParam(value = "address of the storage") @RequestParam(required = false) String bloodStorageAddress) {
-        log.info("Retrieve list of Blood info by providing blood group and/or blood storage address");
+        log.info("Retrieve list of Blood info by providing blood group id and/or blood storage address");
         List<BloodInfo> bloodInfo = service.findAllBloodInfoByBloodIdAndStorageAddress(bloodGroupId, bloodStorageAddress);
-        log.debug("Blood info by providing blood group and/or blood storage address is found. Size: {}", bloodInfo::size);
+        log.debug("Blood info by providing blood group id and/or blood storage address is found. Size: {}", bloodInfo::size);
         return ResponseEntity.ok(bloodInfo);
     }
 }
