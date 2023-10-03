@@ -1,5 +1,6 @@
 package com.blood_stock_server.web.controller;
 
+import com.blood_stock_server.business.service.JwtService;
 import com.blood_stock_server.business.service.impl.BloodStorageServiceImpl;
 import com.blood_stock_server.model.BloodStorage;
 import com.blood_stock_server.swagger.DescriptionVariables;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.List;
 public class BloodStorageController {
 
     private final BloodStorageServiceImpl service;
+    private final JwtService jwtService;
 
     @ApiOperation(value = "Save new blood storage",
             response = BloodStorage.class)
@@ -94,11 +97,16 @@ public class BloodStorageController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<BloodStorage> updateBloodStorage(
+            @NotNull HttpServletRequest request,
             @ApiParam(value = "id of the blood storage", required = true)
             @PathVariable @NotNull Long id,
             @Valid @RequestBody BloodStorage bloodStorage,
             BindingResult bindingResult
     ) {
+        final String jwt = request.getHeader("Authorization").substring(7);
+        log.info("What is that: {}", jwt);
+        String userEmail = jwtService.extractUsername(jwt);
+        log.info("User name: {}", userEmail);
         if (bindingResult.hasErrors()) {
             log.warn("Blood storage is not updated: error {}", bindingResult);
             return ResponseEntity.badRequest().build();

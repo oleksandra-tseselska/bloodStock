@@ -11,14 +11,17 @@ import com.blood_stock_server.model.AuthenticationResponse;
 import com.blood_stock_server.model.RegisterRequest;
 import com.blood_stock_server.model.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -40,7 +43,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.USER)
                 .build();
         repository.save(mapper.userToUserEntity(user));
-        var jwtToken = jwtService.generateToken(user);
+        HashMap<String, Object> role = new HashMap<>();
+        role.put("role", Role.USER);
+        var jwtToken = jwtService.generateToken(role, user);
         return new AuthenticationResponse(jwtToken);
     }
 
